@@ -1,0 +1,8 @@
+# ansible-playbook
+---
+- hosts: 
+  - localhost
+  gather_facts: yes
+  vars:
+  roles:
+    - shutdown-hook

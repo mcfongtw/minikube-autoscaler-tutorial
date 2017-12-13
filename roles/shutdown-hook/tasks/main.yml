@@ -1,0 +1,15 @@
+- name: kubectl delete all pods
+  command: kubectl delete --all pods --namespace=default
+
+- name: kubectl delete all services
+  command: kubectl delete --all services --namespace=default
+
+- name: kubectl delete all deployments
+  command: kubectl delete --all deployments --namespace=default
+
+- name: kubectl delete all hpas
+  command: kubectl delete --all hpa --namespace=default
+
+- name: Stop kubernetes cluster
+  command: minikube stop
+

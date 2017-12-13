@@ -1,0 +1,18 @@
+---
+- name: "ubuntu | Create SSH folder"
+  file: path=~/.ssh state=directory
+  tags:
+    - installation
+    - configuration
+
+- name: "ubuntu | run 'dpkg --configure -a'"
+  become: yes
+  command: dpkg --configure -a
+  tags:
+    - installation
+    - upgrade
+
+- name: "ubuntu | Run apt-get update and apt-get upgrade"
+  include: ubuntu/update-apt.yml
+  tags: preconfig
+

@@ -1,0 +1,20 @@
+---
+- name: include os/distribution type / version specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "defaults/{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}.yml"
+    - "defaults/{{ ansible_os_family | lower }}-{{ ansible_architecture | lower }}.yml"
+    - "defaults/{{ ansible_distribution | lower }}.yml"
+    - "defaults/{{ ansible_os_family | lower }}.yml"
+    - "defaults/default.yml"
+
+- name: include os/distribution type / version specific main task file
+  include: "{{ task_path_by_dist }}"
+  with_first_found:
+      - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}/main.yml"
+      - "{{ ansible_distribution | lower }}/main.yml"
+      - "{{ ansible_os_family | lower }}/main.yml"
+      - "default.yml"
+  loop_control:
+    loop_var: "task_path_by_dist"
+

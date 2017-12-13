@@ -1,0 +1,4 @@
+---
+- name: Failback to default handle
+  fail:
+    msg: Cannot include os/distribution type / version specific variables!  

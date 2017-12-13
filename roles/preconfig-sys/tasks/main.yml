@@ -1,0 +1,15 @@
+---
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[item]
+    verbosity: 2
+  with_items: '{{ groups["all"] }}'
+
+#TODO: Use a general logic to include tasks / vars based on dist and/or release name
+#Could not be done since raspbian can only be recognized via debian on armv7l arch
+
+
+- name: if ubuntu, include family specific task file
+  include: "ubuntu/main.yml"
+  when: ansible_distribution | lower == 'ubuntu'
+

@@ -1,0 +1,50 @@
+# Run apt-get related 
+#   
+
+- name: "ubuntu | Enable debug-symbol package repository"
+  become: yes 
+  shell: | 
+    echo 'deb http://ddebs.ubuntu.com {{ansible_distribution_release}} main restricted universe multiverse
+    deb http://ddebs.ubuntu.com {{ansible_distribution_release}}-updates main restricted universe multiverse
+    deb http://ddebs.ubuntu.com {{ansible_distribution_release}}-proposed main restricted universe multiverse' > /etc/apt/sources.list.d/ddebs.list
+  when: enable_debug_symbol is defined and enable_debug_symbol == true
+  tags:
+    - installation
+    - upgrade
+
+- name: " ubuntu | Import the debug symbol archive signing key from the ubuntu server (port 80)"
+  become: yes 
+  # NOTE: Use port 80 instead of potential blocked default port 11371
+  # Reference: https://unix.stackexchange.com/questions/75892/keyserver-timed-out-when-trying-to-add-a-gpg-public-key
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 428D7C01 C8CAB6595FDFF622
+  when: enable_debug_symbol is defined and enable_debug_symbol == true
+  tags:
+    - installation
+    - upgrade
+
+- name: " ubuntu | Update apt packages"
+  become: yes
+  apt: 
+    update_cache=yes
+  tags:
+    - installation
+    - upgrade
+
+- name: "ubuntu | Upgrade (dist) packages via apt"
+  become: yes 
+  apt: 
+    upgrade=dist
+  when: upgrade_opt is defined and upgrade_opt=='dist'
+  tags:
+    - installation
+    - upgrade
+
+- name: "ubuntu | Upgrade (safe) packages via apt"
+  become: yes 
+  apt: 
+    upgrade=safe
+  when: upgrade_opt is defined and upgrade_opt=='safe'
+  tags:
+    - installation
+    - upgrade
+

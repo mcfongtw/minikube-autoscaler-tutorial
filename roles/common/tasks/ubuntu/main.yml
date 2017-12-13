@@ -1,0 +1,9 @@
+- name: "{{ ansible_distribution }} | Make sure the common packages are installed"
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: "{{ target_packages }}"
+  become: yes
+  tags:
+    - installation
+    - upgrade

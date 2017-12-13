@@ -1,0 +1,8 @@
+
+vagrant_version: 1.9.5
+vagrant_download_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
+
+vbox_license_checksum: 715c7246dc0f779ceab39446812362b2f9bf64a55ed5d3a905f053cfab36da9e
+
+target_packages:
+  - virtualbox-5.1

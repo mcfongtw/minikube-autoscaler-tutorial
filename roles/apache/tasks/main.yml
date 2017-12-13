@@ -1,0 +1,23 @@
+- name: Start kubernetes cluster
+  command: minikube start
+
+- name: Start collecting metrics
+  command: minikube addons enable heapster
+
+- name: Start up dashboard service and display in browser
+  command: minikube dashboard  
+
+- name: Open up Grafana service and display in browser
+  command: minikube addons open heapster
+
+- name: Copy the yml definition files to /tmp
+  copy:
+    src: "{{ item }}"
+    dest: /tmp
+    mode: "u=rw,g=r,o=r"
+  with_fileglob:
+    - files/*.yml
+
+- name: Kuberctrl create Deployment + Service + Horizontal Pod AutoScaler
+  command: kubectl create -f /tmp/definition.yml
+

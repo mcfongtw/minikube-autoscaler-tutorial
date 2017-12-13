@@ -1,0 +1,18 @@
+---
+# file: common/tasks/main.yml
+
+- name: include OS family/distribution specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "defaults/{{ ansible_os_family | lower }}-{{ ansible_distribution | lower }}.yml"
+    - "defaults/{{ ansible_os_family | lower }}-{{ ansible_architecture | lower }}.yml"
+    - "defaults/{{ ansible_os_family | lower }}.yml"
+  tags: installation
+
+- name: if debian, include family specific task file
+  include: "debian/main.yml"
+  when: ansible_os_family | lower == 'debian'
+
+- name: if redhat, include family specific task file
+  include: "redhat/main.yml"
+  when: ansible_os_family | lower == 'redhat'

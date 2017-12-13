@@ -1,0 +1,6 @@
+# file: common/defaults/Debian.yml
+
+target_packages:
+   - wget
+   - curl
+   - tar

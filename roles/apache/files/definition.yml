@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: apache
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - name: apache
+        image: gcr.io/google_containers/hpa-example
+        ports:
+        - name: http-port
+          containerPort: 80
+        resources:
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache
+spec:
+  ports:
+  - port: 31001
+    nodePort: 31001
+    targetPort: http-port
+    protocol: TCP
+  selector:
+    app: apache
+  type: NodePort
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: apache
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 50
