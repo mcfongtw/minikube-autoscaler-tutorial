@@ -4,5 +4,6 @@
   - localhost
   gather_facts: yes
   vars:
+    - nuke_minikube_image: false
   roles:
     - shutdown-hook

@@ -28,3 +28,6 @@
   command: minikube stop
   when: minikube_status.stdout.find('Running') != -1
 
+- name: Delete minikube image
+  command: minikube delete
+  when: nuke_minikube_image==true
