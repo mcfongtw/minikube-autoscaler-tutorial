@@ -1,7 +1,7 @@
 - name: Download kubectl
   get_url:
-    url: https://storage.googleapis.com/kubernetes-release/release/v1.7.8/bin/linux/amd64/kubectl
+    url: https://storage.googleapis.com/kubernetes-release/release/v1.8.5/bin/linux/amd64/kubectl
     dest: /usr/local/bin/kubectl
-    mode: 0665
-    checksum: sha256:c4fd350f9fac76121dda479c1ceba2d339b19f8806aa54207eff55c9c6896724
+    mode: 0744
+    checksum: sha256:2663511441d44b844a25925b7d74d9326d86b8347408d21ed6efbd27a7f7109a
   become: yes

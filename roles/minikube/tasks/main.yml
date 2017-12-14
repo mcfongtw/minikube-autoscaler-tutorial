@@ -1,8 +1,8 @@
 - name: Download minikube
   get_url:
-    url: https://storage.googleapis.com/minikube/releases/v0.21.0/minikube-linux-amd64 
+    url: https://storage.googleapis.com/minikube/releases/v0.24.1/minikube-linux-amd64 
     dest: /usr/local/bin/minikube
-    mode: 0665
-    checksum: sha256:c5dc6e8d85f96d4bfba321bdca93b2a828a714162653a55a9b3a6d527f517e82
+    mode: 0744
+    checksum: sha256:1261de09386fd1f4ee7a4645958757c2c9e69f419a2a4ca8aff475017a7e036e
   become: yes
 

