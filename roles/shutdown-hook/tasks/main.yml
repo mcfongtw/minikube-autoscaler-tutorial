@@ -1,15 +1,30 @@
+- name: Check minikube status
+  shell: minikube status
+  register: minikube_status
+  ignore_errors: yes
+
+- name: Debug minikube_status
+  debug:
+    var: minikube_status
+    verbosity: 2
+
 - name: kubectl delete all pods
   command: kubectl delete --all pods --namespace=default
+  when: minikube_status.stdout.find('Running') != -1
 
 - name: kubectl delete all services
   command: kubectl delete --all services --namespace=default
+  when: minikube_status.stdout.find('Running') != -1
 
 - name: kubectl delete all deployments
   command: kubectl delete --all deployments --namespace=default
+  when: minikube_status.stdout.find('Running') != -1
 
 - name: kubectl delete all hpas
   command: kubectl delete --all hpa --namespace=default
+  when: minikube_status.stdout.find('Running') != -1
 
 - name: Stop kubernetes cluster
   command: minikube stop
+  when: minikube_status.stdout.find('Running') != -1
 
