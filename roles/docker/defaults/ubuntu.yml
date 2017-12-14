@@ -1,0 +1,4 @@
+target_packages:
+  - docker-ce
+
+docker_compose_version: 1.16.1

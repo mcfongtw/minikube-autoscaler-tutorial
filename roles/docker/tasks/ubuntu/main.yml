@@ -1,0 +1,102 @@
+- name: "{{ ansible_distribution }} | Purge the old repo if it exists"
+  apt: name={{ item }} purge=yes
+  with_items:
+    - "lxc-docker*"
+    - "docker.io*"
+  ignore_errors: yes
+  tags:
+    - installation
+
+- name: "{{ ansible_distribution }} | Check if docker has installed"
+  command: dpkg-query -l docker-engine
+  register: check_docker_installed
+  ignore_errors: yes
+  tags:
+    - installation
+    - upgrade
+
+- name: "{{ ansible_distribution }} | Docker has been installed"
+  debug: 
+    msg: Docker has been installed.
+  when: check_docker_installed.stderr.find('no packages found') == -1 
+  tags:
+    - installation
+    - upgrade
+
+- name: " {{ ansible_distribution }} | Enable official docker-ce repository"
+  become: yes
+  shell: |
+    echo 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable' > /etc/apt/sources.list.d/docker-ce.list
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade
+
+- name: "{{ ansible_distribution }} | add the GPG key for the official Docker repository "
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  become: yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade
+
+
+- name: " {{ ansible_distribution }} | Update apt packages"
+  become: yes
+  apt:
+    update_cache=yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade
+
+- name: " {{ ansible_distribution }} | Make sure the docker-ce packages are installed"
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items: "{{ target_packages }}"
+  become: yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade
+
+- name: "{{ ansible_distribution }} | Add user {{ username }} into docker group w/ superuser priviledges"
+  shell: usermod -aG docker {{ username }} 
+  become: yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+
+- name: "{{ ansible_distribution }} | Start and enable docker service"
+  service: 
+    name: docker 
+    state: started
+    enabled: true
+  become: yes
+  tags:
+    - installation
+    - service-started
+    - service-enabled
+
+- name: "{{ ansible_distribution }} | Download docker-compose from official repo"
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_machine }}" 
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
+  become: yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade
+
+- name: "{{ ansible_distribution }} | Download docker-compose bash autocompletion"
+  get_url:
+    url: "https://raw.githubusercontent.com/docker/compose/{{ docker_compose_version }}/contrib/completion/bash/docker-compose" 
+    dest: /etc/bash_completion.d/docker-compose
+    mode: 0644
+  become: yes
+  when: check_docker_installed.stderr.find('no packages found') != -1 
+  tags:
+    - installation
+    - upgrade

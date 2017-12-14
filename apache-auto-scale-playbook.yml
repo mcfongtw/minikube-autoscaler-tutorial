@@ -10,6 +10,7 @@
     - preconfig-sys
     - common
     - virtualbox
+    - docker
     - minikube
     - kubernetes
     - apache
