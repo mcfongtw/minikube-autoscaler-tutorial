@@ -1,16 +1,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: apache
+  name: official-php-apache
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: apache
+        app: official-php-apache
     spec:
       containers:
-      - name: apache
+      - name: official-php-apache
         image: gcr.io/google_containers/hpa-example
         ports:
         - name: http-port
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: apache
+  name: official-php-apache
 spec:
   ports:
   - port: 31001
@@ -30,18 +30,18 @@ spec:
     targetPort: http-port
     protocol: TCP
   selector:
-    app: apache
+    app: official-php-apache
   type: NodePort
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: apache-autoscaler
+  name: official-php-apache-autoscaler
 spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
-    name: apache
+    name: official-php-apache
   minReplicas: 1
   maxReplicas: 2
   targetCPUUtilizationPercentage: 50

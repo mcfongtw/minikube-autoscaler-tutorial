@@ -1,0 +1,15 @@
+- name: Register Apache server URL
+  shell: minikube service official-php-apache --url
+  register: official_php_apache_url
+
+- name: Display PHP Apache server URL
+  debug:
+    var: official_php_apache_url
+    verbosity: 2
+
+- name: Warning message
+  debug:
+    msg: LET THE GAME BEGINS!  
+
+- name: DDOS PHP Apache Server
+  shell: "while true; do wget -q -O- {{ official_php_apache_url.stdout}}; done"
