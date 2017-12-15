@@ -1,0 +1,6 @@
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
+# 
+# Changing this to true will delete the minikube image the restart minikube 
+# will take a while to re-pull a new image.
+#
+NUKE_MINIKUBE_IMAGE: false

@@ -5,8 +5,9 @@ This is an automated tutorial instructing hot to use Kubernetes to achieve horiz
 # Minimum Requirement
 For the best user experience, please prepare:
 * Ubuntu (v16.04.2)
+* Python2 / 3
+* Git
 * Ansible (v2.3.2)
-
 
 # Ansible Roles
 There are some packages that will be automatically installed, some with a fixed stable version.
@@ -86,6 +87,16 @@ This example is (a lot) less CPU-intensive than to the 'Official PHP Apache' exa
 3. Stop the load by pressing `Ctrl-C`
 
 # Troubleshooting Guide
+
+## Minikube Troubleshooting
+
+We should check minikube logs by
+```bash
+minikube logs
+```
+Here are some possible scenarios:
+
+1.
 
 ## Pod Troubleshooting
 We should check pod status by

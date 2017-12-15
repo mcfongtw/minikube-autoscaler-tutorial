@@ -1,3 +1,2 @@
-* Move dup kube tasks as handlers
+* Consider to move minikube start/stop as Ansible handler
 * Add a memory based HPA example
-* Add a troubleshooting sectionin README that we should do a docker login if we cannot pull docker image properly 

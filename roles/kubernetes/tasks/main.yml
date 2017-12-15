@@ -2,6 +2,6 @@
   get_url:
     url: https://storage.googleapis.com/kubernetes-release/release/v1.8.5/bin/linux/amd64/kubectl
     dest: /usr/local/bin/kubectl
-    mode: 0744
+    mode: 0755
     checksum: sha256:2663511441d44b844a25925b7d74d9326d86b8347408d21ed6efbd27a7f7109a
   become: yes

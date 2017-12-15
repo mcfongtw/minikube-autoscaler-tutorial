@@ -2,7 +2,25 @@
   get_url:
     url: https://storage.googleapis.com/minikube/releases/v0.24.1/minikube-linux-amd64 
     dest: /usr/local/bin/minikube
-    mode: 0744
+    mode: 0755
     checksum: sha256:1261de09386fd1f4ee7a4645958757c2c9e69f419a2a4ca8aff475017a7e036e
   become: yes
+
+- name: Start minikube cluster
+  command: minikube start
+
+- name: Wait for a few miniutes pulling container images
+  pause:
+    minutes: 3 
+    prompt: Waiting for pulling container images..
+  when: NUKE_MINIKUBE_IMAGE==true
+
+- name: Start collecting metrics
+  command: minikube addons enable heapster
+
+- name: Start up dashboard service and display in browser
+  command: minikube dashboard  
+
+- name: Open up Grafana service and display in browser
+  command: minikube addons open heapster
 

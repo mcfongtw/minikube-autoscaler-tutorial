@@ -30,4 +30,4 @@
 
 - name: Delete minikube image
   command: minikube delete
-  when: nuke_minikube_image==true
+  when: NUKE_MINIKUBE_IMAGE==true
