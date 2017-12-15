@@ -1,0 +1,16 @@
+# ansible-playbook
+---
+- include: shutdown-playbook.yml
+
+- hosts: 
+  - localhost
+  gather_facts: yes
+  vars:
+  roles:
+    - preconfig-sys
+    - common
+    - virtualbox
+    - docker
+    - minikube
+    - kubernetes
+    - httpd

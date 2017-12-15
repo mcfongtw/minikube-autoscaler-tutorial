@@ -1,0 +1,15 @@
+- name: Register Apache server URL
+  shell: minikube service httpd --url
+  register: httpd_url
+
+- name: Display Apache server URL
+  debug:
+    var: httpd_url
+    verbosity: 2
+
+- name: Warning message
+  debug:
+    msg: LET THE GAME BEGINS!  
+
+- name: DDOS Apache Server
+  shell: "while true; do wget -q -O- {{ httpd_url.stdout}}; done"
