@@ -3,16 +3,18 @@ This is an automated tutorial instructing hot to use Kubernetes to achieve horiz
 
 
 # Minimum Requirement
-For the best user experience, please prepare:
-* Ubuntu (v16.04.2)
-* Python2 / 3
+For the best user experience, please prepare a physical / virtual (not VirtualBox powered, see below) machine with:
+* Ubuntu (v16.04.2+)
+* Python2 / Python3
 * Git
-* Ansible (v2.3.2)
+* Ansible (v2.3+)
 
 # Ansible Roles
 There are some packages that will be automatically installed, some with a fixed stable version.
 * docker-ce (*for reference v17.06* )
-* virtualbox (*for reference v5.1*)
+    * **WARNING** Ansible would purge old apt repository for lxc-docker / docker.io
+* virtualbox (**fixed v5.1**)
+    * **WARNING** Ansible would remove old package for v4.x / v5.0
 * minikube (**fixed v0.24.1**)
 * kubernetes (**fixed v1.8.5**)
 
@@ -87,6 +89,19 @@ This example is (a lot) less CPU-intensive than to the 'Official PHP Apache' exa
 3. Stop the load by pressing `Ctrl-C`
 
 # Troubleshooting Guide
+
+## Virtualization Support
+```bash
+>$ minikube start
+========================================
+Starting local Kubernetes v1.8.0 cluster...
+Starting VM...
+E1215 13:47:28.650742    2593 start.go:156] Error starting host:  Error creating host: Error executing step: Running precreate checks.
+: This computer doesn't have VT-X/AMD-v enabled. Enabling it in the BIOS is mandatory
+```
+Please check the enable hardware virtualization support in the host OS.
+
+As a side note, VirtualBox does **not** support VT-X/AMD-v in nested virtualization. For details, see the [ticket](https://www.virtualbox.org/ticket/4032)
 
 ## Minikube Troubleshooting
 

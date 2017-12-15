@@ -61,13 +61,6 @@
     - installation
     - upgrade
 
-- name: "{{ ansible_distribution }} | Add user {{ username }} into docker group w/ superuser priviledges"
-  shell: usermod -aG docker {{ username }} 
-  become: yes
-  when: check_docker_installed.stderr.find('no packages found') != -1 
-  tags:
-    - installation
-
 - name: "{{ ansible_distribution }} | Start and enable docker service"
   service: 
     name: docker 
