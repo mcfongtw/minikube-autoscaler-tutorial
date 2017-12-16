@@ -7,7 +7,12 @@
   become: yes
 
 - name: Start minikube cluster
-  command: minikube start
+  command: minikube start --vm-driver=none --kubernetes-version=v1.8.0
+  environment:
+    - CHANGE_MINIKUBE_NONE_USER: true
+
+- name: Fix the kubectl context, as it's often stale.
+  command: minikube update-context
 
 - name: Wait for a few miniutes pulling container images
   pause:

@@ -1,3 +1,5 @@
+[Travis](https://travis-ci.org/mcfongtw/minikube-autoscaler-tutorial.svg?branch=master)
+
 # Overview
 This is an automated tutorial instructing hot to use Kubernetes to achieve horizontal auto-scaling. The technology stack heavily involves Ansible, Kubernetes, Docker etc. For simplicity, we will first use Minikube to demonstrate the power of Kubernetes on local machine.
 
