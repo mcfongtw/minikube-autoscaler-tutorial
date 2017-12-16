@@ -9,3 +9,5 @@
 - name: Kuberctrl create Deployment + Service + Horizontal Pod AutoScaler
   command: kubectl create -f /tmp/definition.yml
 
+- name: (Testing only) curl http://localhost/index.html from Httpd
+  shell: curl -Lo /tmp/index.html `minikube service httpd --url`  

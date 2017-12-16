@@ -26,6 +26,7 @@
   become: yes
   apt: 
     update_cache=yes
+  when: is_testing is not defined 
   tags:
     - installation
     - upgrade

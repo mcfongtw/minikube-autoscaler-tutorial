@@ -14,18 +14,38 @@
 - name: Fix the kubectl context, as it's often stale.
   command: minikube update-context
 
-- name: Wait for a few miniutes pulling container images
+- name: (Workaround) To wait SSL service (:8443) to be ready
   pause:
-    minutes: 3 
-    prompt: Waiting for pulling container images..
-  when: NUKE_MINIKUBE_IMAGE==true
+    seconds: 10
+  #  when: is_testing is defined
+
+- name: Wait until minikube is up and ready - 2 min timeout
+  shell: |
+    for i in {1..60}; do # 60 * 2 = 2 min
+       kubectl get nodes
+       kubectl get nodes | grep -q 'NotReady'
+       if [ $? -eq 0 ]; then
+          echo 'NotReady'
+          continue
+       else
+          echo 'Ready' 
+          break
+       fi
+       sleep 1
+    done
+  args:
+    executable: /bin/bash  
+  #  when: is_testing is not defined
+
 
 - name: Start collecting metrics
   command: minikube addons enable heapster
 
 - name: Start up dashboard service and display in browser
   command: minikube dashboard  
+  when: is_testing is not defined 
 
 - name: Open up Grafana service and display in browser
   command: minikube addons open heapster
+  when: is_testing is not defined 
 

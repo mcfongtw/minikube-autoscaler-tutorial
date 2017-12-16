@@ -1,31 +1,39 @@
-language: go
+language: python
+
+python: "2.7" 
+
+# To access the packages inside the virtualenv
+# See https://docs.travis-ci.com/user/languages/python/
+virtualenv:
+  system_site_packages: true
 
 sudo: required
 
-# This moves Kubernetes specific config files.
 env:
-  - CHANGE_MINIKUBE_NONE_USER=true
-
-# Skip installation of dependencies since they are already in vendor.
-install: true
-
-go:
-  - 1.8.x
+  - DUMMY=true
 
 git:
   depth: 1
     
+
+before_install:
+  - sudo apt-get update -qq
+
+
+install:
+  # Install Ansible.
+  - pip install ansible
+  # Add ansible.cfg to pick up roles path.
+  #- "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"          
+
 before_script:
-  # Download kubectl, which is a requirement for using minikube.
-  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.8.5/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
-  # Download minikube.
-  - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
-  - sudo minikube start --vm-driver=none --kubernetes-version=v1.8.0
-  # Fix the kubectl context, as it's often stale.
-  - minikube update-context
-  # Wait for Kubernetes to be up and ready.
-  - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+#  - 
 
 script:
-  - kubectl cluster-info 
-  - kubectl create -f roles/httpd/files/definition.yml
+ - ./operate test test-httpd-playbook.yml 
+ - > 
+   cat /tmp/index.html
+   | grep 'It works!' 
+   && (echo 'Httpd UP!' && exit 0)
+   || (echo 'Httpd DOWN!' && exit 1)
+ - ./operate test shutdown-playbook.yml
