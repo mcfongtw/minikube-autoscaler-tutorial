@@ -1,12 +1,14 @@
-Build Status: ![](https://travis-ci.org/mcfongtw/minikube-autoscaler-tutorial.svg?branch=master)
+Master Build: ![](https://travis-ci.org/mcfongtw/minikube-autoscaler-tutorial.svg?branch=master)
 
 # Overview
 This is an automated tutorial instructing hot to use Kubernetes to achieve horizontal auto-scaling. The technology stack heavily involves Ansible, Kubernetes, Docker etc. For simplicity, we will first use Minikube to demonstrate the power of Kubernetes on local machine.
 
 
 # Minimum Requirement
-For the best user experience, please prepare a physical / virtual (not VirtualBox powered, see below) machine with:
-* Ubuntu (v16.04.2+)
+For the best user experience, please prepare a physical / virtual (not VirtualBox powered, please refer to reasons below) machine with:
+* Ubuntu 
+  * Xenial - v16.04
+  * Trusty - v14.04 
 * Python2 / Python3
 * Git
 * Ansible (v2.3+)
@@ -21,7 +23,7 @@ There are some packages that will be automatically installed, some with a fixed 
 * kubernetes (**fixed v1.8.5**)
 
 # Command Line Tool
-There is a `operate` provided to operate the Ansible playbook. Here is the example usage
+There is a `operate` script provided to operate over the Ansible playbook. Here is the example usage
 ```bash
 >$./operate
 Usage: ./operate {play|check} {playbook-file}
@@ -44,7 +46,7 @@ SUDO password: <enter-your-sudo-password>
 ```bash
 >$./operate check {playbook-file}
 ```
-Run Ansible in Check-Mode will not make any changes to the target systems. Some modules that do not support check mode may take no action or return error (and simulation would stop).
+**Note** Running Ansible in check mode will not make any changes to the target systems as it only check for playbook and roles syntax error if any. 
 
 # Example Summary
 Here are some services that Kubernetes assists to scale horizontally to a predefined replication definition based on observed resource utilization.
