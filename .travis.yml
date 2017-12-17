@@ -30,6 +30,7 @@ before_script:
 #  - 
 
 script:
+ - ./operate check test-httpd-playbook.yml 
  - ./operate test test-httpd-playbook.yml 
  - > 
    cat /tmp/index.html

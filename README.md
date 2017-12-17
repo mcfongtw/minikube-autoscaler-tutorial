@@ -1,4 +1,4 @@
-[Travis](https://travis-ci.org/mcfongtw/minikube-autoscaler-tutorial.svg?branch=master)
+Build Status: ![](https://travis-ci.org/mcfongtw/minikube-autoscaler-tutorial.svg?branch=master)
 
 # Overview
 This is an automated tutorial instructing hot to use Kubernetes to achieve horizontal auto-scaling. The technology stack heavily involves Ansible, Kubernetes, Docker etc. For simplicity, we will first use Minikube to demonstrate the power of Kubernetes on local machine.
@@ -24,7 +24,7 @@ There are some packages that will be automatically installed, some with a fixed 
 There is a `operate` provided to operate the Ansible playbook. Here is the example usage
 ```bash
 >$./operate
-Usage: ./operate {play|try} {playbook}
+Usage: ./operate {play|check} {playbook-file}
 
 This always run on localhost
 ```
@@ -40,9 +40,9 @@ SUDO password: <enter-your-sudo-password>
 ...
 SUDO password: <enter-your-sudo-password>
 ```
-3. (Experimental) Dry-run a playbook
+3. Syntactic check a playbook
 ```bash
->$./operate try {playbook-file}
+>$./operate check {playbook-file}
 ```
 Run Ansible in Check-Mode will not make any changes to the target systems. Some modules that do not support check mode may take no action or return error (and simulation would stop).
 

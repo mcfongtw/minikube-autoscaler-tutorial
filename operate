@@ -4,7 +4,7 @@
 ANS_ARGS=""
 
 usage() {
-    echo $"Usage: $0 {play|try|test} {playbook-file}"
+    echo $"Usage: $0 {play|check} {playbook-file}"
 	echo ""
 	echo $"This always run on localhost"
     exit 1
@@ -40,13 +40,13 @@ ansible_test() {
 	${ANS_EXEC} ${ANS_ARGS}
 }
 
-ansible_try() {
+ansible_check() {
 	local PLAYBOOK_PATH=$1
 	local ANS_EXEC="ansible-playbook"
 
 	ANS_ARGS="$ANS_ARGS --connection=local --ask-sudo-pass"
 
-	ANS_ARGS="$ANS_ARGS -C "
+	ANS_ARGS="$ANS_ARGS --syntax-check "
 	
 	_set_verbose
 	
@@ -64,8 +64,8 @@ case "$1" in
 	test)
 	    ansible_test $2 $3
 		;;
-	try)
-	    ansible_try $2 $3
+	check)
+	    ansible_check $2 $3
 	    ;;
 	*)  
 	    usage
